@@ -33,6 +33,7 @@ public class Login extends javax.swing.JFrame {
         loginButton = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
         passwordField = new javax.swing.JPasswordField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,6 +58,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("testlabel");
+
         javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
         loginPanel.setLayout(loginPanelLayout);
         loginPanelLayout.setHorizontalGroup(
@@ -77,12 +80,17 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(136, 136, 136))))
+                        .addGap(136, 136, 136))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(56, 56, 56))))
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
-                .addGap(61, 61, 61)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(33, 33, 33)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userNameLabel))
@@ -162,6 +170,7 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton exitButton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton loginButton;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPasswordField passwordField;
