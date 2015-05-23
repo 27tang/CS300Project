@@ -1,11 +1,21 @@
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Scanner;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,14 +28,32 @@ import javax.swing.JOptionPane;
  * @author x
  */
 public class MainFrame extends javax.swing.JFrame {
+    
+    private String username;
+    private String userfile;
+    private TaskLists taskLists;
+    
 
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        //settiing up table colors
+        toDoScroll.getViewport().setBackground(Color.BLACK);
+        toDoTable.getTableHeader().setDefaultRenderer(new TableHeaderRenderer());
+        inProgressScroll.getViewport().setBackground(Color.BLACK);
+        inProgressTable.getTableHeader().setDefaultRenderer(new TableHeaderRenderer());
+        doneScroll.getViewport().setBackground(Color.BLACK);
+        doneTable.getTableHeader().setDefaultRenderer(new TableHeaderRenderer());
+        toDoTable.setDefaultRenderer(Object.class, new TaskRenderer());
+        inProgressTable.setDefaultRenderer(Object.class, new TaskRenderer());
+        doneTable.setDefaultRenderer(Object.class, new TaskRenderer());
         this.getContentPane().setBackground(Color.BLACK);
-    }
+        taskLists = new TaskLists();
+       
+    }   
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -159,39 +187,42 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.add(loginPanel, "card2");
 
         userSessionPanel.setBackground(new java.awt.Color(7, 6, 24));
+        userSessionPanel.setForeground(new java.awt.Color(86, 83, 83));
 
         jLabel1.setForeground(new java.awt.Color(251, 180, 243));
         jLabel1.setText("WE're IN! whaaaaaaaaaaat?!");
 
+        toDoScroll.setBackground(new java.awt.Color(179, 96, 96));
+        toDoScroll.setForeground(new java.awt.Color(50, 50, 50));
+
+        toDoTable.setBackground(new java.awt.Color(1, 1, 1));
+        toDoTable.setFont(new java.awt.Font("Estrangelo TurAbdin", 0, 18)); // NOI18N
+        toDoTable.setForeground(new java.awt.Color(254, 254, 254));
         toDoTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
-                "", "To Do"
+                "To Do"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
+        toDoTable.setColumnSelectionAllowed(true);
         toDoTable.setDragEnabled(true);
-        toDoTable.getTableHeader().setReorderingAllowed(false);
+        toDoTable.setSelectionBackground(new java.awt.Color(4, 2, 24));
+        toDoTable.setSelectionForeground(new java.awt.Color(254, 254, 254));
         toDoScroll.setViewportView(toDoTable);
+        toDoTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (toDoTable.getColumnModel().getColumnCount() > 0) {
             toDoTable.getColumnModel().getColumn(0).setResizable(false);
-            toDoTable.getColumnModel().getColumn(0).setPreferredWidth(2);
-            toDoTable.getColumnModel().getColumn(1).setResizable(false);
-            toDoTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+            toDoTable.getColumnModel().getColumn(0).setPreferredWidth(200);
         }
 
+        inProgressTable.setBackground(new java.awt.Color(1, 1, 1));
+        inProgressTable.setFont(new java.awt.Font("Estrangelo Midyat", 0, 18)); // NOI18N
+        inProgressTable.setForeground(new java.awt.Color(254, 254, 254));
         inProgressTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
                 "", "In Progress"
@@ -206,6 +237,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         inProgressTable.setDragEnabled(true);
+        inProgressTable.setGridColor(new java.awt.Color(1, 1, 1));
         inProgressTable.getTableHeader().setReorderingAllowed(false);
         inProgressScroll.setViewportView(inProgressTable);
         if (inProgressTable.getColumnModel().getColumnCount() > 0) {
@@ -215,9 +247,12 @@ public class MainFrame extends javax.swing.JFrame {
             inProgressTable.getColumnModel().getColumn(1).setPreferredWidth(200);
         }
 
+        doneTable.setBackground(new java.awt.Color(1, 1, 1));
+        doneTable.setFont(new java.awt.Font("Estrangelo Midyat", 0, 18)); // NOI18N
+        doneTable.setForeground(new java.awt.Color(254, 254, 254));
         doneTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null}
+
             },
             new String [] {
                 "", "Done"
@@ -249,6 +284,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         logOutButton.setText("Log Out");
+        logOutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutButtonActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Move Task");
 
@@ -312,10 +352,24 @@ public class MainFrame extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         
-        String username = usernameTextField.getText();
+        username = usernameTextField.getText();
         String password = new String(passwordField.getPassword());
         try{
                 if(authenticate(username, password)){
+                    
+                    password = "";
+                    passwordField.setText("");
+                    usernameTextField.setText("");
+                    
+                    try{
+                            taskLists.populateLists(username);
+                        }catch(IOException ex){
+                            System.err.println("Userfile error");
+                        }
+                    
+                    taskLists.populateTables(toDoTable, inProgressTable, doneTable);
+        
+                    
                     CardLayout cl = (CardLayout)mainPanel.getLayout();
                     cl.next(mainPanel);
                 } else{
@@ -327,6 +381,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_loginButtonActionPerformed
 
+    
+    
     private boolean authenticate(String username, String password) throws IOException{
         Scanner in = null;
         
@@ -381,10 +437,37 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void createTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTaskButtonActionPerformed
-        // TODO add your handling code here:
+    
+        JTextField nameField = new JTextField();
+        JTextField dateField = new JTextField();
+        JTextField priorityField = new JTextField();
         
-        //JOptionPane.showMessageDialog(this, "Excuse me! We do ask that you do not touch anything!","Shame on you!",JOptionPane.WARNING_MESSAGE);
+        Object[] fields = {
+            "Task Name:", nameField,
+            "Deadline:", dateField,
+            "Priority Level:", priorityField
+        };
+    
+     
+        JOptionPane.showConfirmDialog(null, fields, "Create New Task", JOptionPane.OK_CANCEL_OPTION);
+        
+        Task newTask = new Task(nameField.getText(), dateField.getText(), Integer.parseInt(priorityField.getText()));
+        taskLists.addToDoTask(newTask);
+        
+        DefaultTableModel m = (DefaultTableModel)toDoTable.getModel();
+        m.addRow(new Object[]{newTask});
+        
+        
+        
+        
+        
     }//GEN-LAST:event_createTaskButtonActionPerformed
+
+    private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
+        // TODO add your handling code here:
+        CardLayout cl = (CardLayout)mainPanel.getLayout();
+                    cl.previous(mainPanel);
+    }//GEN-LAST:event_logOutButtonActionPerformed
 
     /**
      * @param args the command line arguments
