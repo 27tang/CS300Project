@@ -2,6 +2,7 @@
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,9 +12,12 @@ import java.util.ListIterator;
 import java.util.Scanner;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -50,9 +54,24 @@ public class MainFrame extends javax.swing.JFrame {
         inProgressTable.setDefaultRenderer(Object.class, new TaskRenderer());
         doneTable.setDefaultRenderer(Object.class, new TaskRenderer());
         this.getContentPane().setBackground(Color.BLACK);
-        taskLists = new TaskLists();
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
        
-    }   
+    }
+    
+    public void refreshDisplay(){
+        toDoTable.setVisible(true);
+        DefaultTableModel m = (DefaultTableModel)toDoTable.getModel();
+        m.fireTableDataChanged();
+        inProgressTable.setVisible(true);
+        m = (DefaultTableModel)inProgressTable.getModel();
+        m.fireTableDataChanged();
+        doneTable.setVisible(true);
+        m = (DefaultTableModel)doneTable.getModel();
+        m.fireTableDataChanged();
+        logOutButton.setVisible(true);
+        createTaskButton.setVisible(true);
+    }
     
 
     /**
@@ -64,6 +83,14 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        taskDetailDialog = new javax.swing.JDialog();
+        nameDetailLabel = new javax.swing.JLabel();
+        dateDetailLabel = new javax.swing.JLabel();
+        priorityDetailLabel = new javax.swing.JLabel();
+        nameDetail = new javax.swing.JLabel();
+        dateDetail = new javax.swing.JLabel();
+        priorityDetail = new javax.swing.JLabel();
+        jOptionPane2 = new javax.swing.JOptionPane();
         mainPanel = new javax.swing.JPanel();
         loginPanel = new javax.swing.JPanel();
         usernameTextField = new javax.swing.JTextField();
@@ -84,7 +111,56 @@ public class MainFrame extends javax.swing.JFrame {
         doneTable = new javax.swing.JTable();
         createTaskButton = new javax.swing.JButton();
         logOutButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+
+        nameDetailLabel.setText("Task:");
+
+        dateDetailLabel.setText("Deadline:");
+
+        priorityDetailLabel.setText("Priority:");
+
+        nameDetail.setText("Golbledoop");
+
+        dateDetail.setText("GobleDate");
+
+        priorityDetail.setText("HIGH");
+
+        javax.swing.GroupLayout taskDetailDialogLayout = new javax.swing.GroupLayout(taskDetailDialog.getContentPane());
+        taskDetailDialog.getContentPane().setLayout(taskDetailDialogLayout);
+        taskDetailDialogLayout.setHorizontalGroup(
+            taskDetailDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(taskDetailDialogLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(taskDetailDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nameDetailLabel)
+                    .addComponent(dateDetailLabel)
+                    .addComponent(priorityDetailLabel))
+                .addGap(46, 46, 46)
+                .addGroup(taskDetailDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(priorityDetail)
+                    .addComponent(dateDetail)
+                    .addComponent(nameDetail))
+                .addContainerGap(175, Short.MAX_VALUE))
+        );
+        taskDetailDialogLayout.setVerticalGroup(
+            taskDetailDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(taskDetailDialogLayout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addGroup(taskDetailDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameDetailLabel)
+                    .addComponent(nameDetail))
+                .addGap(26, 26, 26)
+                .addGroup(taskDetailDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dateDetailLabel)
+                    .addComponent(dateDetail))
+                .addGap(31, 31, 31)
+                .addGroup(taskDetailDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(priorityDetailLabel)
+                    .addComponent(priorityDetail))
+                .addContainerGap(128, Short.MAX_VALUE))
+        );
+
+        jOptionPane2.setBackground(new java.awt.Color(169, 32, 32));
+        jOptionPane2.setForeground(new java.awt.Color(255, 0, 0));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Task Management");
@@ -94,8 +170,12 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.setLayout(new java.awt.CardLayout());
 
         loginPanel.setBackground(new java.awt.Color(20, 10, 10));
+        loginPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(246, 162, 174), new java.awt.Color(1, 1, 1)));
         loginPanel.setForeground(new java.awt.Color(193, 176, 176));
 
+        usernameTextField.setBackground(new java.awt.Color(26, 0, 0));
+        usernameTextField.setForeground(new java.awt.Color(254, 202, 202));
+        usernameTextField.setText("user1");
         usernameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usernameTextFieldActionPerformed(evt);
@@ -109,12 +189,16 @@ public class MainFrame extends javax.swing.JFrame {
         passwordLabel.setForeground(new java.awt.Color(253, 190, 190));
         passwordLabel.setText("Password:");
 
+        passwordField.setBackground(new java.awt.Color(26, 0, 0));
+        passwordField.setForeground(new java.awt.Color(254, 202, 202));
         passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordFieldActionPerformed(evt);
             }
         });
 
+        loginButton.setBackground(new java.awt.Color(29, 1, 1));
+        loginButton.setForeground(new java.awt.Color(252, 212, 212));
         loginButton.setText("Log In");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,8 +208,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         mainTitleLabel.setFont(new java.awt.Font("Estrangelo Antioch", 1, 24)); // NOI18N
         mainTitleLabel.setForeground(new java.awt.Color(253, 190, 190));
+        mainTitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mainTitleLabel.setText("Task Management");
 
+        exitButton.setBackground(new java.awt.Color(29, 1, 1));
+        exitButton.setForeground(new java.awt.Color(252, 212, 212));
         exitButton.setText("Exit");
         exitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,7 +220,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        authenticationErrorLabel.setBackground(new java.awt.Color(254, 254, 254));
+        authenticationErrorLabel.setBackground(new java.awt.Color(254, 226, 226));
+        authenticationErrorLabel.setForeground(new java.awt.Color(254, 226, 226));
+        authenticationErrorLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        authenticationErrorLabel.setText("Please enter your username and password.");
 
         javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
         loginPanel.setLayout(loginPanelLayout);
@@ -141,33 +231,29 @@ public class MainFrame extends javax.swing.JFrame {
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGap(266, 266, 266)
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordLabel)
-                    .addComponent(usernameLabel))
-                .addGap(18, 18, 18)
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(passwordField)
-                        .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(247, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                        .addComponent(authenticationErrorLabel)
-                        .addGap(345, 345, 345))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPanelLayout.createSequentialGroup()
-                        .addComponent(mainTitleLabel)
-                        .addGap(271, 271, 271))))
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passwordLabel)
+                            .addComponent(usernameLabel))
+                        .addGap(37, 37, 37)
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(passwordField)
+                            .addComponent(usernameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)))
+                    .addComponent(authenticationErrorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mainTitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(234, Short.MAX_VALUE))
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
-                .addGap(165, 165, 165)
+                .addGap(150, 150, 150)
                 .addComponent(mainTitleLabel)
-                .addGap(18, 18, 18)
+                .addGap(33, 33, 33)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(usernameLabel))
@@ -175,27 +261,30 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordLabel))
-                .addGap(27, 27, 27)
-                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(loginButton)
-                    .addComponent(exitButton))
-                .addGap(46, 46, 46)
+                .addGap(18, 18, 18)
                 .addComponent(authenticationErrorLabel)
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exitButton)
+                    .addComponent(loginButton))
+                .addContainerGap(166, Short.MAX_VALUE))
         );
 
         mainPanel.add(loginPanel, "card2");
 
-        userSessionPanel.setBackground(new java.awt.Color(7, 6, 24));
+        userSessionPanel.setBackground(new java.awt.Color(7, 2, 15));
+        userSessionPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(32, 2, 27), new java.awt.Color(132, 148, 253), java.awt.Color.darkGray, java.awt.Color.black));
         userSessionPanel.setForeground(new java.awt.Color(86, 83, 83));
 
-        jLabel1.setForeground(new java.awt.Color(251, 180, 243));
-        jLabel1.setText("WE're IN! whaaaaaaaaaaat?!");
+        jLabel1.setFont(new java.awt.Font("Estrangelo Midyat", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(196, 203, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Task Management");
 
         toDoScroll.setBackground(new java.awt.Color(179, 96, 96));
         toDoScroll.setForeground(new java.awt.Color(50, 50, 50));
 
-        toDoTable.setBackground(new java.awt.Color(1, 1, 1));
+        toDoTable.setBackground(new java.awt.Color(2, 3, 16));
         toDoTable.setFont(new java.awt.Font("Estrangelo TurAbdin", 0, 18)); // NOI18N
         toDoTable.setForeground(new java.awt.Color(254, 254, 254));
         toDoTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -205,11 +294,25 @@ public class MainFrame extends javax.swing.JFrame {
             new String [] {
                 "To Do"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         toDoTable.setColumnSelectionAllowed(true);
         toDoTable.setDragEnabled(true);
         toDoTable.setSelectionBackground(new java.awt.Color(4, 2, 24));
         toDoTable.setSelectionForeground(new java.awt.Color(254, 254, 254));
+        toDoTable.getTableHeader().setReorderingAllowed(false);
+        toDoTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                toDoTableMouseClicked(evt);
+            }
+        });
         toDoScroll.setViewportView(toDoTable);
         toDoTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (toDoTable.getColumnModel().getColumnCount() > 0) {
@@ -217,7 +320,7 @@ public class MainFrame extends javax.swing.JFrame {
             toDoTable.getColumnModel().getColumn(0).setPreferredWidth(200);
         }
 
-        inProgressTable.setBackground(new java.awt.Color(1, 1, 1));
+        inProgressTable.setBackground(new java.awt.Color(2, 3, 16));
         inProgressTable.setFont(new java.awt.Font("Estrangelo Midyat", 0, 18)); // NOI18N
         inProgressTable.setForeground(new java.awt.Color(254, 254, 254));
         inProgressTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -225,29 +328,39 @@ public class MainFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "", "In Progress"
+                "In Progress"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         inProgressTable.setDragEnabled(true);
         inProgressTable.setGridColor(new java.awt.Color(1, 1, 1));
         inProgressTable.getTableHeader().setReorderingAllowed(false);
+        inProgressTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                inProgressTableMouseClicked(evt);
+            }
+        });
         inProgressScroll.setViewportView(inProgressTable);
         if (inProgressTable.getColumnModel().getColumnCount() > 0) {
             inProgressTable.getColumnModel().getColumn(0).setResizable(false);
-            inProgressTable.getColumnModel().getColumn(0).setPreferredWidth(2);
-            inProgressTable.getColumnModel().getColumn(1).setResizable(false);
-            inProgressTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+            inProgressTable.getColumnModel().getColumn(0).setPreferredWidth(200);
         }
 
-        doneTable.setBackground(new java.awt.Color(1, 1, 1));
+        doneTable.setBackground(new java.awt.Color(2, 3, 16));
         doneTable.setFont(new java.awt.Font("Estrangelo Midyat", 0, 18)); // NOI18N
         doneTable.setForeground(new java.awt.Color(254, 254, 254));
         doneTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -255,27 +368,32 @@ public class MainFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "", "Done"
+                "Done"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class
+            boolean[] canEdit = new boolean [] {
+                false
             };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         doneTable.setDragEnabled(true);
         doneTable.getTableHeader().setReorderingAllowed(false);
+        doneTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                doneTableMouseClicked(evt);
+            }
+        });
         doneScroll.setViewportView(doneTable);
         if (doneTable.getColumnModel().getColumnCount() > 0) {
             doneTable.getColumnModel().getColumn(0).setResizable(false);
-            doneTable.getColumnModel().getColumn(0).setPreferredWidth(2);
-            doneTable.getColumnModel().getColumn(1).setResizable(false);
-            doneTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+            doneTable.getColumnModel().getColumn(0).setPreferredWidth(200);
         }
 
+        createTaskButton.setBackground(new java.awt.Color(9, 2, 17));
+        createTaskButton.setForeground(new java.awt.Color(195, 193, 254));
         createTaskButton.setText("Create Task");
         createTaskButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,6 +401,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        logOutButton.setBackground(new java.awt.Color(9, 2, 17));
+        logOutButton.setForeground(new java.awt.Color(195, 193, 254));
         logOutButton.setText("Log Out");
         logOutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -290,16 +410,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Move Task");
-
         javax.swing.GroupLayout userSessionPanelLayout = new javax.swing.GroupLayout(userSessionPanel);
         userSessionPanel.setLayout(userSessionPanelLayout);
         userSessionPanelLayout.setHorizontalGroup(
             userSessionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(userSessionPanelLayout.createSequentialGroup()
-                .addGap(194, 194, 194)
-                .addComponent(jLabel1)
-                .addContainerGap(408, Short.MAX_VALUE))
             .addGroup(userSessionPanelLayout.createSequentialGroup()
                 .addComponent(toDoScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -309,24 +423,25 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(userSessionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(createTaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(logOutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(logOutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 9, Short.MAX_VALUE))
+            .addGroup(userSessionPanelLayout.createSequentialGroup()
+                .addGap(193, 193, 193)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         userSessionPanelLayout.setVerticalGroup(
             userSessionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(userSessionPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(userSessionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(inProgressScroll)
-                    .addComponent(doneScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                    .addComponent(doneScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
                     .addComponent(toDoScroll)
                     .addGroup(userSessionPanelLayout.createSequentialGroup()
                         .addComponent(createTaskButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(logOutButton)))
                 .addContainerGap())
@@ -360,6 +475,8 @@ public class MainFrame extends javax.swing.JFrame {
                     password = "";
                     passwordField.setText("");
                     usernameTextField.setText("");
+                    authenticationErrorLabel.setText("Please enter username and password.");
+                    taskLists = new TaskLists();
                     
                     try{
                             taskLists.populateLists(username);
@@ -437,27 +554,14 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     private void createTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createTaskButtonActionPerformed
-    
-        JTextField nameField = new JTextField();
-        JTextField dateField = new JTextField();
-        JTextField priorityField = new JTextField();
+            
+        toDoTable.setVisible(false);
+        inProgressTable.setVisible(false);
+        doneTable.setVisible(false);
         
-        Object[] fields = {
-            "Task Name:", nameField,
-            "Deadline:", dateField,
-            "Priority Level:", priorityField
-        };
-    
-     
-        JOptionPane.showConfirmDialog(null, fields, "Create New Task", JOptionPane.OK_CANCEL_OPTION);
-        
-        Task newTask = new Task(nameField.getText(), dateField.getText(), Integer.parseInt(priorityField.getText()));
-        taskLists.addToDoTask(newTask);
-        
-        DefaultTableModel m = (DefaultTableModel)toDoTable.getModel();
-        m.addRow(new Object[]{newTask});
-        
-        
+        CreateTaskDialog createTaskDialog = new CreateTaskDialog(this, taskLists, toDoTable);
+        createTaskDialog.setVisible(true);
+        createTaskDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         
         
@@ -465,10 +569,97 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
         // TODO add your handling code here:
+        
+        logOut();
         CardLayout cl = (CardLayout)mainPanel.getLayout();
                     cl.previous(mainPanel);
     }//GEN-LAST:event_logOutButtonActionPerformed
 
+    private void logOut(){
+        try{taskLists.writeOut(username);
+        } catch (IOException ex){
+            System.err.println("USERFILE WRITEOUT ERROR");
+        }
+        taskLists = null;
+        clearTables();
+    }
+    
+    private void clearTables(){
+        DefaultTableModel m = (DefaultTableModel)toDoTable.getModel();
+        m.setRowCount(0);
+        m = (DefaultTableModel)inProgressTable.getModel();
+        m.setRowCount(0);
+        m = (DefaultTableModel)doneTable.getModel();
+        m.setRowCount(0);
+    }
+    
+    private void hideTables(){
+        toDoTable.setVisible(false);
+        inProgressTable.setVisible(false);
+        doneTable.setVisible(false);
+        logOutButton.setVisible(false);
+        createTaskButton.setVisible(false);
+    }
+    
+    private void toDoTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_toDoTableMouseClicked
+        DefaultTableModel m = (DefaultTableModel)toDoTable.getModel();
+        Task theTask = (Task)m.getValueAt(toDoTable.getSelectedRow(),0);
+        hideTables();
+
+        ToDoDetailsDialog detailsDialog = new ToDoDetailsDialog(theTask, this, 1);
+        detailsDialog.setVisible(true);
+        detailsDialog.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
+
+    }//GEN-LAST:event_toDoTableMouseClicked
+
+    private void inProgressTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inProgressTableMouseClicked
+        DefaultTableModel m = (DefaultTableModel)inProgressTable.getModel();
+        Task theTask = (Task)m.getValueAt(inProgressTable.getSelectedRow(),0);
+        hideTables();
+               
+        ToDoDetailsDialog detailsDialog = new ToDoDetailsDialog(theTask, this, 2);
+        detailsDialog.setVisible(true);
+        detailsDialog.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+    }//GEN-LAST:event_inProgressTableMouseClicked
+
+    private void doneTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_doneTableMouseClicked
+        DefaultTableModel m = (DefaultTableModel)doneTable.getModel();
+        Task theTask = (Task)m.getValueAt(doneTable.getSelectedRow(),0);
+        hideTables();
+        
+        ToDoDetailsDialog detailsDialog = new ToDoDetailsDialog(theTask, this, 3);
+        detailsDialog.setVisible(true);
+        detailsDialog.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+    }//GEN-LAST:event_doneTableMouseClicked
+
+    public void moveToDoToInProg(){
+        taskLists.moveToDoToInProg(toDoTable, inProgressTable);
+    }
+    
+    public void moveInProgToDone(){
+        taskLists.moveInProgToDone(inProgressTable, doneTable);
+    }
+    
+    public void deleteTask(int listType){
+        DefaultTableModel m;
+        int index;
+        if(listType == 1){
+            m = (DefaultTableModel)toDoTable.getModel();
+            index = toDoTable.getSelectedRow();
+        }
+        else if(listType == 2){
+            m = (DefaultTableModel)inProgressTable.getModel();
+            index = inProgressTable.getSelectedRow();
+        }
+        else {
+            m = (DefaultTableModel)doneTable.getModel();
+            index = doneTable.getSelectedRow();
+        }
+        m.removeRow(index);
+        taskLists.deleteTask(index, listType);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -507,20 +698,27 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel authenticationErrorLabel;
     private javax.swing.JButton createTaskButton;
+    private javax.swing.JLabel dateDetail;
+    private javax.swing.JLabel dateDetailLabel;
     private javax.swing.JScrollPane doneScroll;
     private javax.swing.JTable doneTable;
     private javax.swing.JButton exitButton;
     private javax.swing.JScrollPane inProgressScroll;
     private javax.swing.JTable inProgressTable;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JOptionPane jOptionPane2;
     private javax.swing.JButton logOutButton;
     private javax.swing.JButton loginButton;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel mainTitleLabel;
+    private javax.swing.JLabel nameDetail;
+    private javax.swing.JLabel nameDetailLabel;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
+    private javax.swing.JLabel priorityDetail;
+    private javax.swing.JLabel priorityDetailLabel;
+    private javax.swing.JDialog taskDetailDialog;
     private javax.swing.JScrollPane toDoScroll;
     private javax.swing.JTable toDoTable;
     private javax.swing.JPanel userSessionPanel;

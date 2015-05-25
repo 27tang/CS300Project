@@ -1,3 +1,9 @@
+
+import java.awt.Color;
+import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,12 +15,30 @@
  * @author x
  */
 public class CreateTaskDialog extends javax.swing.JFrame {
+    private MainFrame mainFrame;
+    private TaskLists theTaskLists;
+    private Task theTask;
+    private JTable theToDoTable;
 
     /**
-     * Creates new form CreateTaskDialog
+     * Creates new form ToDoDetailsDialog
      */
     public CreateTaskDialog() {
         initComponents();
+    }
+    
+    public CreateTaskDialog(MainFrame mainFrameToAdd, TaskLists taskLists, JTable toDoTable){
+        
+        initComponents();
+
+        mainFrame = mainFrameToAdd;
+        theTaskLists = taskLists;
+        theToDoTable = toDoTable;
+        
+        errorLabel.setVisible(false);
+        
+        this.getContentPane().setBackground(new Color(7,6,24));
+        this.getContentPane().setForeground(new Color(7,6,24));
     }
 
     /**
@@ -26,31 +50,164 @@ public class CreateTaskDialog extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        taskNameLabel = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        deadlineLabel = new javax.swing.JTextField();
+        prioritySlider = new javax.swing.JSlider();
+        jLabel3 = new javax.swing.JLabel();
+        createNewTaskButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Task Details");
 
-        jLabel1.setText("IS THIS GONEE WORK??");
+        jPanel1.setBackground(new java.awt.Color(2, 0, 26));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(53, 1, 1), new java.awt.Color(14, 4, 4)));
+
+        taskNameLabel.setBackground(new java.awt.Color(23, 9, 34));
+        taskNameLabel.setFont(new java.awt.Font("Estrangelo Antioch", 0, 15)); // NOI18N
+        taskNameLabel.setForeground(new java.awt.Color(202, 225, 254));
+
+        jLabel1.setFont(new java.awt.Font("Estrangelo Antioch", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(254, 214, 214));
+        jLabel1.setText("Task:");
+
+        jLabel2.setFont(new java.awt.Font("Estrangelo Antioch", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(254, 214, 214));
+        jLabel2.setText("Deadline:");
+
+        deadlineLabel.setBackground(new java.awt.Color(23, 9, 34));
+        deadlineLabel.setFont(new java.awt.Font("Estrangelo Antioch", 0, 15)); // NOI18N
+        deadlineLabel.setForeground(new java.awt.Color(202, 225, 254));
+
+        prioritySlider.setMaximum(3);
+        prioritySlider.setMinimum(1);
+        prioritySlider.setValue(2);
+
+        jLabel3.setFont(new java.awt.Font("Estrangelo Antioch", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(254, 214, 214));
+        jLabel3.setText("Priority:");
+
+        createNewTaskButton.setBackground(new java.awt.Color(23, 9, 34));
+        createNewTaskButton.setFont(new java.awt.Font("Estrangelo Antioch", 0, 18)); // NOI18N
+        createNewTaskButton.setForeground(new java.awt.Color(186, 216, 253));
+        createNewTaskButton.setText("Create New Task");
+        createNewTaskButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createNewTaskButtonActionPerformed(evt);
+            }
+        });
+
+        cancelButton.setBackground(new java.awt.Color(23, 9, 34));
+        cancelButton.setFont(new java.awt.Font("Estrangelo Antioch", 0, 18)); // NOI18N
+        cancelButton.setForeground(new java.awt.Color(186, 216, 253));
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        errorLabel.setForeground(new java.awt.Color(193, 245, 255));
+        errorLabel.setText("Task name cannot be blank!");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(62, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(89, 89, 89)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(deadlineLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(taskNameLabel)
+                            .addComponent(prioritySlider, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(createNewTaskButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(151, 151, 151))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(192, 192, 192))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(taskNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deadlineLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(prioritySlider, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30)
+                .addComponent(createNewTaskButton)
+                .addGap(18, 18, 18)
+                .addComponent(cancelButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(errorLabel)
+                .addGap(26, 26, 26))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(jLabel1)
-                .addContainerGap(129, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(jLabel1)
-                .addContainerGap(155, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        // TODO add your handling code here:
+        mainFrame.refreshDisplay();
+        this.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void createNewTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewTaskButtonActionPerformed
+        String newTaskName = taskNameLabel.getText();
+        String newDeadline = deadlineLabel.getText();
+        int newPriority = prioritySlider.getValue();
+        if(newTaskName.equals(""))
+            errorLabel.setVisible(true);
+        else{
+            errorLabel.setVisible(false);
+            Task theTask = new Task(newTaskName, newDeadline, newPriority);
+            theTaskLists.addToDoTask(theTask);
+        
+            DefaultTableModel m = (DefaultTableModel)theToDoTable.getModel();
+            m.addRow(new Object[]{theTask});
+            mainFrame.refreshDisplay();
+            this.dispose();
+        }
+        
+        
+    }//GEN-LAST:event_createNewTaskButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -69,25 +226,34 @@ public class CreateTaskDialog extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateTaskDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ToDoDetailsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateTaskDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ToDoDetailsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateTaskDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ToDoDetailsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateTaskDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ToDoDetailsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateTaskDialog().setVisible(true);
+                new ToDoDetailsDialog().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton createNewTaskButton;
+    private javax.swing.JTextField deadlineLabel;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JSlider prioritySlider;
+    private javax.swing.JTextField taskNameLabel;
     // End of variables declaration//GEN-END:variables
 }
