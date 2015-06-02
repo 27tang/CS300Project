@@ -3,12 +3,6 @@ import com.sun.awt.AWTUtilities;
 import java.awt.Color;
 import javax.swing.JFrame;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author x
@@ -24,6 +18,20 @@ public class ToDoDetailsDialog extends javax.swing.JFrame {
     public ToDoDetailsDialog() {
         initComponents();
     }
+    /**
+     * constructor for ToDoDetailsDialog
+     * runs generated code with initComponents, then sets the dialog window to always
+     * on top.
+     * makes the tables and buttons invisible so that they cannot be clicked.
+     * gets the task details from the task object that is selected in the tbale 
+     * displays them tot he user.
+     * @param task
+     * the task to be displayed or edited
+     * @param mainFrameToAdd
+     * the MainFrame that the toDoDetailsDialog spawns from
+     * @param theListType 
+     * the type of list the task is from
+     */
     
     public ToDoDetailsDialog(Task task, MainFrame mainFrameToAdd, int theListType){
         
@@ -40,14 +48,7 @@ public class ToDoDetailsDialog extends javax.swing.JFrame {
         taskNameLabel.setText(task.getTaskName());
         deadlineLabel.setText(task.getDate());
         prioritySlider.setValue(task.getPriority());
-        this.getContentPane().setBackground(new Color(20,5,1));
-        //this.getContentPane().setForeground(new Color(20,5,1));
-        //this.setDefaultLookAndFeelDecorated(true);
-        //AWTUtilities.setWindowOpacity(this, 0.40f);
-        //this.setBackground(new Color(0, 0, 0, 0));
-        
-        
-    
+        this.getContentPane().setBackground(new Color(20,5,1));   
     }
 
     /**
@@ -221,6 +222,11 @@ public class ToDoDetailsDialog extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    /**
+     * the method to run when the close button is clicked
+     * @param evt 
+     */
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         // TODO add your handling code here:
         mainFrame.refreshDisplay();

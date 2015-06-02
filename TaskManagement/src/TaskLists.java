@@ -10,11 +10,6 @@ import java.util.Scanner;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -49,12 +44,9 @@ public class TaskLists {
                 name = in.next();
                 date = in.next();
                 
-                //String test = Integer.parseInt(in.next());
                 String test = in.next();
-                //System.out.println(test);
                 
                 priority = Integer.parseInt(test.trim());
-                //priority = 3;
                 if(type == 1){
                     toDoList.add(new Task(name, date, priority));
                 }else if(type == 2){
@@ -113,6 +105,7 @@ public class TaskLists {
                 if(listIterator1.hasNext())
                     out.print(":");
             }
+            
             ListIterator<Task> listIterator2 = inProgList.listIterator();
             if(listIterator2.hasNext() && !fileIsEmpty)
                 out.print(":");
@@ -128,6 +121,8 @@ public class TaskLists {
                 if(listIterator2.hasNext())
                     out.print(":");
             }
+            
+            
             ListIterator<Task> listIterator3 = doneList.listIterator();
             if(listIterator3.hasNext()&& !fileIsEmpty)
                 out.print(":");
@@ -142,9 +137,7 @@ public class TaskLists {
                 out.print(currentTask.getPriority());
                 if(listIterator3.hasNext())
                     out.print(":");
-            }
-            
-           
+            }        
             
         }finally{
             if(out!=null)
@@ -152,9 +145,8 @@ public class TaskLists {
             else
                 System.err.println("USERFILE NEVER OPENED.");
         }
-
-        
-    }        
+    }    
+            
     public void addToDoTask(Task toAdd){
         toDoList.add(toAdd);
     }
