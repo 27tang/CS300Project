@@ -25,6 +25,12 @@ import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Xuan Tang
+ * 
+ * The MainFrame class is the main Graphical User Inteface for the Task Management
+ * program. It consists of the login screen and the user session.
+ * It allows a user to log in and load their tasks which will be displayed 
+ * at the user session screen. User can then interact with the buttons and items 
+ * to manage their tasks.
  */
 public class MainFrame extends javax.swing.JFrame {
     
@@ -608,7 +614,7 @@ public class MainFrame extends javax.swing.JFrame {
                     try{
                             taskLists.populateLists(username);
                         }catch(IOException ex){
-                            System.err.println("Userfile error");
+                            //System.out.println("Userfile Not Opened.");
                         }
                     
                     taskLists.populateTables(toDoTable, inProgressTable, doneTable);

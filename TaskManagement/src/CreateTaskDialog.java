@@ -7,7 +7,9 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author x
+ * @author Xuan Tang
+ * the CreateTaskDialog class is a Graphical User Interface class that is a 
+ * dialog allowing a user to enter information to create a new Task object.
  */
 public class CreateTaskDialog extends javax.swing.JFrame {
     private MainFrame mainFrame;
@@ -16,12 +18,19 @@ public class CreateTaskDialog extends javax.swing.JFrame {
     private JTable theToDoTable;
 
     /**
-     * Creates new form ToDoDetailsDialog
+     * Default constructor
      */
     public CreateTaskDialog() {
         initComponents();
     }
     
+    /**
+     * Constructor that specifies the MainFrame, the TaskLists, and the To-Do Jtable
+     * Initializes the errorLabel to invisible and sets the color of the windows
+     * @param mainFrameToAdd
+     * @param taskLists
+     * @param toDoTable 
+     */
     public CreateTaskDialog(MainFrame mainFrameToAdd, TaskLists taskLists, JTable toDoTable){
         
         initComponents();
@@ -177,12 +186,23 @@ public class CreateTaskDialog extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * the method to run when the cancel button is clicked. it tells the mainframe
+     * to refresh its display, and then closes the dialog.
+     * @param evt 
+     */
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         mainFrame.refreshDisplay();
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
-
+    /**
+     * the mtehod to run when the create new task button is clicked.
+     * it fetches the strings from the text fields and also the value from the 
+     * prioirty slider, and uses this information to create a new task.
+     * The task isthen added to the To-Do table and also the To-Do list in TaskLists.
+     * The dialog is then closed.
+     * @param evt 
+     */
     private void createNewTaskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createNewTaskButtonActionPerformed
         String newTaskName = taskNameLabel.getText();
         String newDeadline = deadlineLabel.getText();

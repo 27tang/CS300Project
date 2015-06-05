@@ -6,7 +6,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
- * @author x
+ * @author Xuan Tang
+ * the TaskRenderer sets the look and feel of a cell in a JTable. It also allows
+ * the cell to display the task's taskName.
  */
 public class TaskRenderer extends DefaultTableCellRenderer{
     

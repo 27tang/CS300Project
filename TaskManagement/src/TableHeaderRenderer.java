@@ -10,7 +10,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
- * @author x
+ * @author Xuan Tang
+ * This is a class that formats a JTable header to have a desired color and look
  */
 public class TableHeaderRenderer extends DefaultTableCellRenderer{
     @Override

@@ -13,7 +13,11 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author x
+ * @author Xuan Tang
+ * The TaskLists class contains all the tasks lists for a user in Java LinkedList
+ * data structures. Each type has its own LinkedList.
+ * TaskLists can populate its lists from an external file saving the users data,
+ * and also write out the task lists to an external file.
  */
 public class TaskLists {
     private LinkedList<Task> toDoList = new LinkedList<Task>();
@@ -21,7 +25,13 @@ public class TaskLists {
     private LinkedList<Task> doneList = new LinkedList<Task>();
     
     
-    
+    /**
+     * Populates the LinkedLists with data loaded from an external file.
+     * @param username
+     * the username of the user whose session is active
+     * @throws IOException 
+     * If the file is not found, throws IOException.
+     */
     public void populateLists(String username) throws IOException{
         Scanner in = null;
         
@@ -60,11 +70,20 @@ public class TaskLists {
             if(in!=null)
                 in.close();
             else
-                System.err.println("USERFILE NEVER OPENED.");
+                System.out.println("USERFILE NEVER OPENED. NEW USERFILE MIGHT BE CREATED");
         }
 
     }
-        
+     /**
+      * Populates three JTables that are passed in, one for each type of 
+      * task LinkedList
+      * @param toDoTable
+      * the JTable that holds the To-Do tasks
+      * @param inProgressTable
+      * the JTable that holds the In-Progres tasks
+      * @param doneTable 
+      * the JTable that holds the Done tasks
+      */
     public void populateTables(JTable toDoTable, JTable inProgressTable, JTable doneTable){
         ListIterator<Task> listIterator1 = toDoList.listIterator();
         DefaultTableModel m1 = (DefaultTableModel)toDoTable.getModel();
@@ -83,7 +102,14 @@ public class TaskLists {
         }
     }
     
-    
+    /**
+     * Writes out the tasks stored in the LinkedLists to an external file, overwriting
+     * an existing file or creating a new one.
+     * @param username
+     * the username of the user whose session is active
+     * @throws IOException 
+     * if the file cannot be created or opened, throws IOException
+     */
     public void writeOut(String username) throws IOException{
         
         String filename = "userfiles/"+ username + ".txt";
@@ -146,11 +172,22 @@ public class TaskLists {
                 System.err.println("USERFILE NEVER OPENED.");
         }
     }    
-            
+    /**
+     * adds a task to the toDoList
+     * @param toAdd 
+     * the task to add to the list
+     */        
     public void addToDoTask(Task toAdd){
         toDoList.add(toAdd);
     }
-
+    
+    /**
+     * moves a task from the To-Do JTable to the In-Progress Jtable
+     * @param toDoTable
+     * the to-do JTable supplied
+     * @param inProgressTable 
+     * the InProgress JTable supplied
+     */
     public void moveToDoToInProg(JTable toDoTable, JTable inProgressTable){
         Task taskToMove = toDoList.remove(toDoTable.getSelectedRow());
         inProgList.add(taskToMove);
@@ -160,7 +197,13 @@ public class TaskLists {
         DefaultTableModel m2 = (DefaultTableModel)inProgressTable.getModel();
         m2.addRow(new Object[]{taskToMove});
     }
-    
+    /**
+     * moves a task from the In-Progress JTable to the Done JTable
+     * @param inProgTable
+     * the In-Progress table supplied
+     * @param doneTable 
+     * the Done  JTable supplied
+     */
     public void moveInProgToDone(JTable inProgTable, JTable doneTable){
         Task taskToMove = inProgList.remove(inProgTable.getSelectedRow());
         doneList.add(taskToMove);
@@ -171,6 +214,13 @@ public class TaskLists {
         m2.addRow(new Object[]{taskToMove});
     }
     
+    /**
+     * deletes a task from a specified linked list at a specific location
+     * @param index
+     * the index/position of the linked list where the node is to be deleted
+     * @param listType 
+     * the type of list to delete from 1- todo, 2-Inprogress, 3-Done
+     */
     public void deleteTask(int index, int listType){
         if(listType == 1){
             toDoList.remove(index);

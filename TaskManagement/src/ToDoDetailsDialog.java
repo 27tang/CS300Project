@@ -5,7 +5,9 @@ import javax.swing.JFrame;
 
 /**
  *
- * @author x
+ * @author Xuan Tang
+ * ToDoDetailsDialog is a graphical user interface class - it is the dialog that
+ * allows users to view and edit the details of a single task, along with moving it.
  */
 public class ToDoDetailsDialog extends javax.swing.JFrame {
     private MainFrame mainFrame;
@@ -224,7 +226,8 @@ public class ToDoDetailsDialog extends javax.swing.JFrame {
 
     
     /**
-     * the method to run when the close button is clicked
+     * the method to run when the close button is clicked. it refreshes
+     * the display and resets the move button to visible.
      * @param evt 
      */
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
@@ -233,7 +236,11 @@ public class ToDoDetailsDialog extends javax.swing.JFrame {
         moveButton.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
-
+/**
+ * the method to run when the move button is clicked. It tells the MainFrame to
+ * move its selected to-do task to the in-progress list, then closes the dialog.
+ * @param evt 
+ */
     private void moveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveButtonActionPerformed
         if(listType == 1)
             mainFrame.moveToDoToInProg();
@@ -243,13 +250,21 @@ public class ToDoDetailsDialog extends javax.swing.JFrame {
         mainFrame.refreshDisplay();
         this.dispose();
     }//GEN-LAST:event_moveButtonActionPerformed
-
+/**
+ * the method to run when the delete button is clicked. It tells the MainFrame to
+ * delete the task that is selected, refresh its display. Then it cloese the dialog
+ * @param evt 
+ */
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         mainFrame.deleteTask(listType);
         mainFrame.refreshDisplay();
         this.dispose();
     }//GEN-LAST:event_deleteButtonActionPerformed
-
+/**
+ * the method to run when the save changes button is clicked. It updates the
+ * task's attributes to the new values.
+ * @param evt 
+ */
     private void saveChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
         String newTaskName = taskNameLabel.getText();
         String newDeadline = deadlineLabel.getText();
